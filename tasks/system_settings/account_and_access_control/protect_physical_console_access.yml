@@ -13,7 +13,7 @@
     - AC-6
     - AC-6(7)
 
-- name: Verify /etc/grub.conf User Ownership
+- name: Verify /etc/grub.cfg User Ownership
   file:
     path: /etc/grub2.cfg
     src: /boot/grub2/grub.cfg
@@ -27,6 +27,22 @@
     - AC
     - AC-6
     - AC-6(7)
+
+- stat: path=/boot/efi/EFI/redhat/grub.cfg
+  register: efi_grub_cfg
+
+- name: Verify EFI grub.cfg User Ownership
+  file:
+    path: /boot/efi/EFI/redhat/grub.cfg
+    owner: root
+    group: root
+    mode: 0600
+  when:
+  - ansible_distribution_major_version == 7
+  - efi_grub_cfg.stat.exists == True
+  tags:
+    - AC
+    - AC-6
 
 - name: Check if gconftool-2 exists
   stat:
