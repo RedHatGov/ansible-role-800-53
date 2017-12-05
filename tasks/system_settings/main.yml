@@ -6,3 +6,4 @@
 - include: network_configuration_and_firewalls/main.yml
 - include: configure_syslog.yml
 - include: system_accounting_with_auditd.yml
+- include: fips.yml
