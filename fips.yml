@@ -1,0 +1,72 @@
+---
+# tasks file for ansible.fips
+
+- name: Check for supported version
+  fail:
+    msg: "Please use a supported OS, detected: {{ ansible_distribution }}"
+  when: ansible_distribution != "RedHat"
+
+- name: Install dracut-fips
+  yum:
+    name: dracut-fips
+    state: latest
+
+- name: Checking for AES-NI
+  shell: 'cat /proc/cpuinfo'
+  register: cpu_contents
+
+- name: Installing dracut-fips-aesni if AES support is found
+  yum:
+    name: dracut-fips-aesni
+    state: latest
+  when: cpu_contents.stdout.find('aes') != -1
+
+- name: Check if prelink is installed
+  yum:
+    list="prelink"
+  register: is_installed
+
+- name: Prelink is installed, turing off prelinking in /etc/sysconfig/prelink
+  lineinfile:
+    path: /etc/sysconfig/prelink
+    regexp: '^PRELINKING=yes'
+    line: 'PRELINKING=no'
+  when:  (is_installed.results|length == -1) or (is_installed.results[1].yumstate == 'installed')
+
+- name: Undoing Prelink
+  shell: 'prelink -uav'
+  when:  (is_installed.results|length == -1) or (is_installed.results[1].yumstate == 'installed')
+
+- name: Getting kernel version
+  shell: 'uname -r'
+  register: kernel_version
+
+- name: Backup initramfs
+  shell: "mv -v /boot/initramfs-$(uname -r).img{,.bak}"
+
+- name: Rebuild initramfs
+  shell: 'dracut'
+  register: dracut_cmd
+  failed_when: dracut_cmd.rc != 0
+
+- name: Edit the Kernel to include FIPS argument
+  shell: 'grubby --update-kernel=$(grubby --default-kernel) --args=fips=1'
+  register: grubby_cmd
+  failed_when: grubby_cmd.rc != 0
+
+- name: Check for UUID and Set the boot argument
+  shell: "uuid=$(findmnt -no uuid /boot) ; [[ -n $uuid ]] && grubby --update-kernel=$(grubby --default-kernel) --args=boot=UUID=${uuid}"
+  register: boot_cmd
+  failed_when: boot_cmd.rc != 0
+
+- name: Adding FIPS to the grub
+  shell: "sed -i \'/^GRUB_CMDLINE_LINUX=/s/\"$/ fips=1\"/\' /etc/default/grub"
+  when: ansible_distribution_major_version == "7"
+
+- name: Get UUID and set it in the grub
+  shell: 'uuid=$(findmnt -no uuid /boot) ; [[ -n $uuid ]] && sed -i "/^GRUB_CMDLINE_LINUX=/s/\"$/ boot=UUID=${uuid}\"/" /etc/default/grub'
+  when: ansible_distribution_major_version == "7"
+
+
+- name: Reboot server
+  command: /sbin/reboot
