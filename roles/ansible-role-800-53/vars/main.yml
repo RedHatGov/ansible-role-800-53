@@ -8,7 +8,7 @@ aide_day_of_month: '*'
 aide_month: '*'
 aide_day_of_week: '*'
 
-###vpn_package: openswan
+vpn_package: openswan
 #Whether or not to run an SCAP scan
 run_scap: true
 #The profile to run
