@@ -61,6 +61,48 @@
     - MA-1
     - MA-1(b)
 
+- name: Ensure localpkg_gpgcheck Enabled In Main Yum Configuration
+  replace:
+    dest: /etc/yum.conf
+    regexp: 'localpkg_gpgcheck=0'
+    replace: 'localpkg_gpgcheck=1'
+  tags:
+    - conf-low
+    - conf-medium
+    - conf-high
+    - int-low
+    - int-medium
+    - int-high
+    - avail-low
+    - avail-medium
+    - avail-high
+    - SI
+    - SI-7
+    - MA
+    - MA-1
+    - MA-1(b)
+
+- name: Ensure repo_gpgcheck Enabled In Main Yum Configuration
+  replace:
+    dest: /etc/yum.conf
+    regexp: 'repo_gpgcheck=0'
+    replace: 'repo_gpgcheck=1'
+  tags:
+    - conf-low
+    - conf-medium
+    - conf-high
+    - int-low
+    - int-medium
+    - int-high
+    - avail-low
+    - avail-medium
+    - avail-high
+    - SI
+    - SI-7
+    - MA
+    - MA-1
+    - MA-1(b)
+
 - name: Find All Yum Repositories
   find:
     paths: "/etc/yum.repos.d/"
