@@ -1,0 +1,15 @@
+- name: Install esc package
+  yum:
+    name: esc
+    state: present
+
+- name: Install pam_pkcs11 package
+  yum:
+    name: pam_pkcs11
+    state: present
+
+- name: Install authconfig-gtk
+  yum:
+    name: authconfig-gtk
+    state: present
+
