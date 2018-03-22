@@ -1,6 +1,6 @@
 - name: Change default umask
   replace:
-    dest: /etc/profile
+    path: /etc/profile
     regexp: 'umask [0-7]*$'
     replace: 'umask 077'
   tags:
@@ -18,7 +18,7 @@
 
 - name: Change default bash umask
   replace:
-    dest: /etc/bashrc
+    path: /etc/bashrc
     regexp: 'umask [0-7]*$'
     replace: 'umask 077'
   tags:
@@ -36,7 +36,7 @@
 
 - name: Change cshell umask
   replace:
-    dest: /etc/csh.cshrc
+    path: /etc/csh.cshrc
     regexp: 'umask [0-7]*$'
     replace: 'umask 077'
   tags:
@@ -53,10 +53,11 @@
     - SA-8
 
 - name: Ensure the Default Umask is Set Correctly in login.defs
-  replace:
-    dest: /etc/login.defs
-    regexp: '^UMASK [0-7]*$'
-    replace: 'UMASK 077'
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK'
+    line: 'UMASK   077'
+    state: present
   tags:
     - conf-low
     - conf-medium
@@ -79,7 +80,7 @@
 
 - name: Limit the Number of Concurrent Login Sessions Allowed Per User
   lineinfile:
-    dest: /etc/security/limits.conf
+    path: /etc/security/limits.conf
     regexp: '.* hard maxlogins .*'
     line: "* hard maxlogins 10"
   tags:

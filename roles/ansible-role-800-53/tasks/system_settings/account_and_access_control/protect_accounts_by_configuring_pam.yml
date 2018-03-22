@@ -348,3 +348,19 @@
     dest: /etc/pam.d/system-auth
     line: "session    required  pam_lastlog.so showfailed"
     state: present
+
+- name: Enforce password quality rules
+  lineinfile:
+    path: /etc/pam.d/passwd
+    regexp: '^password\s+required\s+pam_pwquality.so'
+    line: 'password required pam_pwquality.so retry=3'
+    state: present
+  tags:
+    - CAT-II
+    - IA
+    - IA-5
+    - IA-5(b)
+    - IA-5(c)
+    - IA-5(1)
+    - IA-7
+    - RHEL-07-010119
