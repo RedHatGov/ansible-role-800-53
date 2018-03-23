@@ -1,8 +1,8 @@
 ---
-- include: selinux.yml
-- include: installing_and_maintaining_software/main.yml
-- include: file_permissions_and_masks/main.yml
-- include: account_and_access_control/main.yml
-- include: network_configuration_and_firewalls/main.yml
-- include: configure_syslog.yml
-- include: system_accounting_with_auditd.yml
+- include_tasks: selinux.yml
+- include_tasks: installing_and_maintaining_software/main.yml
+- include_tasks: file_permissions_and_masks/main.yml
+- include_tasks: account_and_access_control/main.yml
+- include_tasks: network_configuration_and_firewalls/main.yml
+- include_tasks: configure_syslog.yml
+- include_tasks: system_accounting_with_auditd.yml

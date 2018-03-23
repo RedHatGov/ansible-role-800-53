@@ -1,5 +1,5 @@
 ---
 # file: main.yml
-- include: 800_53.yml
+- include_tasks: 800_53.yml
   tags:
     - 800-53

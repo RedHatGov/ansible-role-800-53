@@ -14,8 +14,8 @@
     auid: 1000
   when: ansible_distribution_major_version == "7"
 
-- include: system_settings/main.yml
-- include: services/main.yml
+- include_tasks: system_settings/main.yml
+- include_tasks: services/main.yml
 
-- include: finalize.yml
-### - include: scap.yml
+- include_tasks: finalize.yml
+### - include_tasks: scap.yml
