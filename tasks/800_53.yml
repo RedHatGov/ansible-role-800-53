@@ -18,4 +18,4 @@
 - include_tasks: services/main.yml
 
 - include_tasks: finalize.yml
-### - include_tasks: scap.yml
+- include_tasks: scap.yml
