@@ -1,7 +1,0 @@
-{% for executable in find_result.stdout_lines %}
--a always,exit -F path={{ executable }} -F perm=x -F auid>={{ auid }} -F auid!=4294967295 -k privileged
-{% endfor %}
--a always,exit -F path=/usr/sbin/semanage -F perm=x -F auid>={{ auid }} -F auid!=4294967295 -k privileged-priv_change
--a always,exit -F path=/usr/sbin/setsebool -F perm=x -F auid>={{ auid }} -F auid!=4294967295 -k privileged-priv_change
--a always,exit -F path=/usr/bin/chcon -F perm=x -F auid>={{ auid }} -F auid!=4294967295 -k privileged-priv_change
--a always,exit -F path=/usr/sbin/setfiles -F perm=x -F auid>={{ auid }} -F auid!=4294967295 -k privileged-priv_change
