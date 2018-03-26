@@ -1,8 +1,0 @@
----
-- include_tasks: kernel_parameters_which_affect_networking.yml
-- include_tasks: wireless_networking.yml
-- include_tasks: ipv6.yml
-- include_tasks: iptables_and_ip6_tables.yml
-- include_tasks: firewalld.yml
-- include_tasks: uncommon_network_protocols.yml
-- include_tasks: ipsec_support.yml
