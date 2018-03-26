@@ -1,0 +1,18 @@
+---
+# vars file for 800-53
+
+#The schedule for AIDE
+aide_minute: 05
+aide_hour: 03
+aide_day_of_month: '*'
+aide_month: '*'
+aide_day_of_week: '*'
+
+vpn_package: openswan
+#Whether or not to run an SCAP scan
+run_scap: true
+#The profile to run
+scap_profile:
+  - stig-rhel{{ ansible_distribution_major_version }}-server-upstream
+#Where on your local host you wish to place the reports
+scap_reports_dir: /tmp

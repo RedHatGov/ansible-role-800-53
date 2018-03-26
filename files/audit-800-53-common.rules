@@ -16,6 +16,7 @@
 -w /etc/localtime -p wa -k audit_time_rules
 -w /etc/selinux/ -p wa -k MAC-policy
 -w /etc/sudoers -p wa -k actions
+-w /etc/sudoers.d/ -p wa -k privileged-actions
 -w /var/log/tallylog -p wa -k logins
 -w /var/run/faillock/ -p wa -k logins
 -w /var/log/lastlog -p wa -k logins
